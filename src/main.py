@@ -22,13 +22,14 @@ def turnoJugador(jugador, contrincante):
             return aplicarTurno(jugador, disparoAleatorio[0], disparoAleatorio[1])
 
     #except ValueError:
-        #print("No ha introducido un numero entero. Por favor, vuelva a intentarlo")
-        #turnoJugador ()
+       # print("No ha introducido un numero entero. Por favor, vuelva a intentarlo", coordenadaFija)
+        
 
 def empezarPartida():
     # Inicializamos jugadores y sus tableros
     jugador1 = Jugador(TIPOS_JUGADORES[1])
     jugador2 = Jugador(TIPOS_JUGADORES[0])
+
     jugador1.colocarBarcos()
     jugador2.colocarBarcos()
     

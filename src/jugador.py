@@ -40,7 +40,7 @@ class Jugador:
             return False
     
     def colocarBarcos(self):
-        """
+        
         # Barco posiciones manuales
         # Lanchas
         self.tableroBarcos.pintarBarco((2,2))
@@ -69,8 +69,7 @@ class Jugador:
         self.tableroBarcos.pintarBarco((5,3))
         self.tableroBarcos.pintarBarco((5,4))
         self.tableroBarcos.pintarBarco((5,5))
-    """
-
+    
 
     def getTableroDisparos(self):
         print(self.tipo)
