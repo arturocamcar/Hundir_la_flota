@@ -1,141 +1,97 @@
 from shutil import SameFileError
+from jugador import * 
 
 from numpy import true_divide
 
-def  menu_principal():
-	inicializar_tablero()
-	mostrar_tablero()
-	mostrar_reglas()
-	mostrar_menu()
+def aplicarTurno(jugador, coordenada, tocado):
+    jugador.turnoActual = tocado
+    jugador.getTableroBarcos().mostrarTablero()
+    jugador.marcarDisparo(coordenada, tocado)
+    jugador.getTableroDisparos().mostrarTablero()
+    return tocado
+
+def turnoJugador(jugador, contrincante):
+    # Jugador persona
+    #try:
+        if jugador.tipo == TIPOS_JUGADORES[1]:
+            coordenadaFija = eval(input("Introducir una coordenada de 0 a 9 para (X,Y): "))
+            tocado = contrincante.disparo(coordenadaFija)
+            return aplicarTurno(jugador, coordenadaFija, tocado)
+        elif jugador.tipo == TIPOS_JUGADORES[0]:
+            disparoAleatorio = contrincante.disparoAleatorio()
+            return aplicarTurno(jugador, disparoAleatorio[0], disparoAleatorio[1])
+
+    #except ValueError:
+        #print("No ha introducido un numero entero. Por favor, vuelva a intentarlo")
+        #turnoJugador ()
+
+def empezarPartida():
+    # Inicializamos jugadores y sus tableros
+    jugador1 = Jugador(TIPOS_JUGADORES[1])
+    jugador2 = Jugador(TIPOS_JUGADORES[0])
+    jugador1.colocarBarcos()
+    jugador2.colocarBarcos()
+    
+    while True:
+        mensaje_inicial = """
+        ¡Bienvenido a Hundir la Flota!
+        Inserta 1 para jugar
+        Inserta 2 para ver las instrucciones del juego
+        Inserta 3 para salir del juego
+        """
+        print(mensaje_inicial)
+        
+        opcion = int(input("Inserta opción: "))
+        if opcion == 1:
+            if turnoJugador(jugador1, jugador2):
+                print("Turno ", jugador1.turnoActual)
+            elif turnoJugador(jugador2, jugador1):
+                print("Turno ", jugador2.turnoActual)
+        elif opcion == 2:
+            mostrarReglas()
+        else:
+            break
 
 
-def comprobar_coordenada():
-	print("TODO")
+def mostrarReglas():
+    instrucciones = '''
+    
+    INSTRUCCIONES HUNDIR LA FLOTA:
 
-def comprobar_flota_enemiga(coordenada):
-	print("TODO")
+    2 jugadores: tú y la máquina.
+    El juego consiste en hundir la flota del contrincante, la máquina, en nuestro caso. 
+    Para ello, tendrás que adivinar las coordenadas en las que estan posicionados sus barcos.
+    Cada jugador tendrá dos tableros de 10x10:
 
-def generar_coordenada():
-	print("TODO")
+        - Tablero Barcos: tablero con 10 barcos, colocados aleatoriamente. Los barcos se representan en el tablero con una letra "O" mayuscula.
+            Cada jugador tiene 10 barcos en su Tablero Barcos:
+                1 Buque: barco de eslora 4 
+                2 Submarinos: barco de eslora 3
+                3 Cruceros: barco de eslora 2
+                4 Lanchas: barcos de eslora 1
+                *Eslora = número de posiciones que ocupa el barco en el tablero  
 
-
-def mostrar_menu():
-	turno_jugador = True
-	
-	if turno_jugador:
-		print("introducir una coordenada(X,Y): ")
-		print("recoger input del usuario y guardarlo en coordenada")
-		coordenada = (4,9)
-		impacto = comprobar_coordenada(coordenada)
-		if impacto:
-			comprobar_flota_enemiga(turno_jugador)
-	else:
-		coordenada = generar_coordenada()
-		coordenada = (8,2)
-		impacto = comprobar_coordenada(coordenada)
-		if impacto:
-			comprobar_flota_enemiga(turno_jugador)
-
-
-
-
-
-"""
-def acerca_de():
-	print("Programado por Laura Ledo y Arturo Campos")
-
-
-def mostrar_menu ():
-	eleccion = ""
-	while eleccion != "3":
-		menu = """
-1. Jugar
-2. Acerca de
-3. Salir
-Elige:"""
-		eleccion = input(menu)
-		if eleccion == "1":
-			jugar()
-		elif eleccion == "2":
-			acerca_de()
-			
-def mostrar_menu():
-	salir = False
-	while True:
-		print (f"Turno de {turno_actual}")
-		if turno_actual = Jugador1
+        - Tablero Disparos: tablero donde se marcarán los disparos al 'Tablero Barcos' del contrincante. 
+    Cada jugador dispone de un turno de disparo que se irá alternando. 
+    En su turno de disparo, deberá decir las coordenadas en las que cree que su contrincante ha colocado un barco:
+        Coordenadas: (fila, columna)
+            El juego le pedirá un número del 0 al 9 para seleccionar una fila, y otro numero del 0 al 9 para seleccionar la columna. 
+            Con los números de fila y columna, tenemos la coordenada de disparo.
+            Si acierta, marcamos la casilla en el tablero disparos con una letra "X" que representa el barco, o la parte del barco, que estaba en esa casilla.
+            Si acierta, puede volver a disparar.
+            Si falla, marcamos la casilla en el tablero disparos con una letra "-", que representa el disparo en el agua.
+            Si falla, es el turno de disparo de su contrincante.
+    Gana el jugador que antes consiga hundir la flota del otro.
+    '''
+    print(instrucciones)
 
 
 
-"""
+    #print("Estas son las reglas a mostrar----> TODO")
+    
+def mostrarMenu():
+    mostrarReglas()
+    empezarPartida()
 
-//Comienza partida
-Inicializa tablero
-...
-Generar barcos jugador1 aleatoriamente
-Pintar los barcos con O en tablero del jugador 1
-...
-
-i=0
-while True
-
-//empieza el while
-
-
-Si es turno del jugador1:
-	Mostramos mensaje --> "Jugador1, por favor introduce una coordenada (X,Y):" 
-	prinr(1,2) <-- jugador1  //el jugador 1 introdujo (1,2)
-	Comprobamos coordenadas // seguramente será una llamada a uno función de alguna de las clases
-
-	Si hay impacto en algún barco:
-		Pintamos X en barco
-		Restamos 1 al número total de celdas referentes a barcos
-		Si quedan barcos enemigos:
-			Fin de la iteración // break
-		Si NO quedan barcos enemigos:
-			Salir del bucle while // por definir cómo
-	Si NO hay impacto en algún barco:
-		Pintamos . en agua
-		Fin de la iteración
-Si NO es turno del jugador1 (es turno de la máquina):
-	Generamos coordenadas aleatorias
-	Comprobramos coordenadas
-	Si hay impacto en algún barco:
-		Pintamos X en barco
-		Restamos 1 al número total de celdas referentes a barcos
-		Si quedan barcos enemigos:
-			Fin de la iteración // break
-		Si NO quedan barcos enemigos:
-			Salir del bucle while // por definir cómo
-	Si NO hay impacto en algún barco:
-		Pintamos . en agua
-		Fin de la iteración
-
-
-------------------------------------------------------
-
-...
-var turno_jugador = true
-var condicion_salida = true
-while (condicion_salida): 
-	if (turno_jugador):
-		print("Jugador1, por favor introduce una coordenada (X,Y):")
-		(1,2) <-- jugador1  //el jugador 1 introdujo (1,2)
-		comprobar_coordenadas(coordenadaX, coordenadaY)
-	else:
-		tupla_coordenada_aleatoria = generar_coordenadas_aleatorias()
-		comprobar_coordenadas(tupla_coordenada_aleatoria[0], tupla_coordenada_aleatoria[1])
-
-
-comprobar_coordenadas(coordenadaX, coordenadaY):
-	if (hay_impacto()):
-		tablero_jugador[coordenadaX][coordenadaY] = "X"
-		coordenadas_barcos_restantes -= 1
-		if (coordenadas_barcos_restantes > 0):
-			break
-		else:
-			condicion_salida = false
-	else:
-		tablero_jugador[coordenadaX][coordenadaY] = "."
-
-"""
+if __name__ == "__main__":
+    mostrarMenu()

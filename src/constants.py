@@ -2,8 +2,8 @@
 
 #Dibujo Tablero
 AGUA = " "
-BARCO = "O"
-DISPARO_AGUA = "-"
+BARCO = "0"
+DISPARO_AGUA = "_"
 DISPARO_BARCO = "X"
 
 #BARCOS - (n_barcos, eslora)
@@ -15,9 +15,10 @@ LANCHA = (4, 1)
 
 N_BARCOS = 10
 
-#Constante dimensiones tablero:
+#Dimensiones del tablero:
 N_FILAS = 10
 N_COLUMNAS = 10
 dimensiones_tablero = (N_FILAS, N_COLUMNAS)
 
+TIPOS_JUGADORES = ["MAQUINA", "PERSONA"]
 
